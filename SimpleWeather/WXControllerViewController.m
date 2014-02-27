@@ -11,20 +11,14 @@
 #import "WXManager.h"
 
 @interface WXControllerViewController ()
-
 @property (nonatomic, strong) UIImageView *backgroundImageView;
 @property (nonatomic, strong) UIImageView *blurredImageView;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, assign) CGFloat screenHeight;
-
 @property (nonatomic, strong) NSDateFormatter *hourlyFormatter;
 @property (nonatomic, strong) NSDateFormatter *dailyFormatter;
-
 @end
-
 @implementation WXControllerViewController
-
-
 
 - (void)viewDidLoad
 {
@@ -116,9 +110,6 @@
     iconView.backgroundColor = [UIColor clearColor];
     [header addSubview:iconView];
     
-    
-    
-    
     [[RACObserve([WXManager sharedManager], hourlyForecast)
       deliverOn:RACScheduler.mainThreadScheduler]
      subscribeNext:^(NSArray *newForecast) {
@@ -130,10 +121,6 @@
      subscribeNext:^(NSArray *newForecast) {
          [self.tableView reloadData];
      }];
-    
-    
-    
-    
     
     [[RACObserve([WXManager sharedManager], currentCondition)
       deliverOn:RACScheduler.mainThreadScheduler]
@@ -182,8 +169,6 @@
     return UIStatusBarStyleLightContent;
 }
 
-
-// 1
 - (void)configureHeaderCell:(UITableViewCell *)cell title:(NSString *)title {
     cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:18];
     cell.textLabel.text = title;
@@ -191,7 +176,6 @@
     cell.imageView.image = nil;
 }
 
-// 2
 - (void)configureHourlyCell:(UITableViewCell *)cell weather:(WXCondition *)weather {
     cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
     cell.detailTextLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:18];
@@ -201,7 +185,6 @@
     cell.imageView.contentMode = UIViewContentModeScaleAspectFit;
 }
 
-// 3
 - (void)configureDailyCell:(UITableViewCell *)cell weather:(WXCondition *)weather {
     cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
     cell.detailTextLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:18];
@@ -237,7 +220,6 @@
     cell.textLabel.textColor = [UIColor whiteColor];
     cell.detailTextLabel.textColor = [UIColor whiteColor];
     
-    
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             [self configureHeaderCell:cell title:@"Hourly Forecast"];
@@ -259,7 +241,6 @@
     return cell;
 }
 
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSInteger cellCount = [self tableView:tableView numberOfRowsInSection:indexPath.section];
     return self.screenHeight / (CGFloat)cellCount;
@@ -273,6 +254,5 @@
     CGFloat percent = MIN(position / height, 1.0);
     self.blurredImageView.alpha = percent;
 }
-
 
 @end

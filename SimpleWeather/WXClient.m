@@ -14,14 +14,11 @@
 @import CoreLocation;
 
 @interface WXClient ()
-
 @property (nonatomic, strong) NSURLSession *session;
-
 @end
 
 
 @implementation WXClient
-
 
 - (id)init {
     if (self = [super init]) {
@@ -31,15 +28,11 @@
     return self;
 }
 
-
 - (RACSignal *)fetchJSONFromURL:(NSURL *)url {
     NSLog(@"Fetching: %@",url.absoluteString);
     
     return [[RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         NSURLSessionDataTask *dataTask = [self.session dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-            // TODO: Handle retrieved data
-            
-            
             if (! error) {
                 NSError *jsonError = nil;
                 id json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&jsonError];
@@ -55,13 +48,9 @@
             }
             
             [subscriber sendCompleted];
-
-            
-            
         }];
         
         [dataTask resume];
-        
         return [RACDisposable disposableWithBlock:^{
             [dataTask cancel];
         }];
@@ -79,7 +68,6 @@
         return [MTLJSONAdapter modelOfClass:[WXCondition class] fromJSONDictionary:json error:nil];
     }];
 }
-
 
 - (RACSignal *)fetchHourlyForecastForLocation:(CLLocationCoordinate2D)coordinate {
     NSString *urlString = [NSString stringWithFormat:@"http://api.openweathermap.org/data/2.5/forecast?lat=%f&lon=%f&units=imperial&cnt=12",coordinate.latitude, coordinate.longitude];

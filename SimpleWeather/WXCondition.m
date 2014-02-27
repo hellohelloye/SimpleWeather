@@ -11,10 +11,8 @@
 @implementation WXCondition
 
 + (NSDictionary *)imageMap {
-    // 1
     static NSDictionary *_imageMap = nil;
     if (! _imageMap) {
-        // 2
         _imageMap = @{
                       @"01d" : @"weather-clear",
                       @"02d" : @"weather-few",
@@ -39,7 +37,6 @@
     return _imageMap;
 }
 
-// 3
 - (NSString *)imageName {
     return [WXCondition imageMap][self.icon];
 }
@@ -105,7 +102,5 @@
         return @(speed.floatValue/MPS_TO_MPH);
     }];
 }
-
-
 
 @end
